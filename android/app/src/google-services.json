@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "466067650611",
+    "project_id": "weather-mate-1b3a4",
+    "storage_bucket": "weather-mate-1b3a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466067650611:android:76251e7ca075682de3cb46",
+        "android_client_info": {
+          "package_name": "com.example.weather_mate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0_HD1Xl5CF0V37CnnMKRsn5MKJPYZNSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
