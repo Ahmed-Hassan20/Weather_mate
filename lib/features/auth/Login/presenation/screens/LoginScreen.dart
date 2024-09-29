@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:weather_mate/features/auth/Login/presenation/controller/login_cubit/cubit/Login_Cubit.dart';
-import 'package:weather_mate/features/auth/Registerr/presenation/screens/RegisterScreen.dart';
 import '../../../../../core/Utils/assets.dart';
-import '../../../Registerr/presenation/widgets/CustomTextFormField.dart';
-import '../widgets/NoAccountText.dart';
-import '../widgets/SignInForm.dart';
+import '../../../Register/presenation/screens/RegisterScreen.dart';
+import '../../../Register/presenation/widgets/CustomTextFormField.dart';
+
 import '../widgets/SocalCard.dart';
 
 class LoginScreen extends StatelessWidget {

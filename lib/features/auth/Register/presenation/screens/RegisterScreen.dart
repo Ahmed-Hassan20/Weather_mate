@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:weather_mate/core/Utils/dialog_utils.dart';
-import 'package:weather_mate/features/auth/Registerr/presenation/controller/login_cubit/cubit/Register_Cubit.dart';
 
 import '../../../../../core/Utils/assets.dart';
 import '../../../Login/presenation/screens/LoginScreen.dart';
 import '../../../Login/presenation/widgets/SocalCard.dart';
+import '../controller/login_cubit/cubit/Register_Cubit.dart';
 import '../controller/login_cubit/state/RegisterStates.dart';
 import '../widgets/CustomTextFormField.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'RegisterScreen';
+
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -198,7 +200,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 16),
                       // const Text(
-                      //   "By continuing your confirm that you agree \nwith our Term and Condition",
+                      //   "By continuing your confirm that you agree \n with our Term and Condition",
                       //   textAlign: TextAlign.center,
                       //   style: TextStyle(
                       //     color: Color(0xFF757575),

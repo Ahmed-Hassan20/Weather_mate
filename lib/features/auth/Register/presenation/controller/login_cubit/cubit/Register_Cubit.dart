@@ -17,18 +17,24 @@ class RegisterScreenCubit extends Cubit<RegisterStates> {
   bool isObscure = true;
 
   RegisterScreenCubit() : super(RegisterInitialState());
-  // RegisterUseCase registerUseCase ;
 
   void register(BuildContext context) async {
     if (formKey.currentState?.validate() == true) {
-      emit(RegisterLoadingState());
-      var result = await FirebaseUtils.createUser(context,nameController.text,
-          emailController.text, passwordController.text, phoneController.text);
-      if (result?.user?.uid==null) {
-        emit(RegisterErrorState('error'));
+      try {
+        emit(RegisterLoadingState());
+        var result = await FirebaseUtils.createUser(
+            context,
+            nameController.text,
+            emailController.text,
+            passwordController.text,
+            phoneController.text);
+        if (result?.user?.uid != null) {
+                    emit(RegisterSuccessState());
 
-      }else{
-        emit(RegisterSuccessState());
+        } else {emit(RegisterErrorState('error'));
+        }
+      } catch (e) {
+        emit(RegisterErrorState("helppppppp"));
 
       }
     }
