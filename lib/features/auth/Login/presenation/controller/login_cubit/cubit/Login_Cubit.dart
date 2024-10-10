@@ -1,35 +1,36 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:get_it/get_it.dart';
+import 'package:weather_mate/features/auth/Login/domain/repositories/BaseLoginRepository.dart';
 import '../state/login_state.dart';
 
 class LoginScreenCubit extends Cubit<LoginStates> {
-  // RegisterScreenViewModel({required this.registerUseCase})
-  //     : super(RegisterInitialState());
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-
-  var formkey = GlobalKey<FormState>();
-  bool isObscure = true;
-
+  var formKey = GlobalKey<FormState>();
+  final BaseLoginRepository loginRepository = GetIt.instance<BaseLoginRepository>();
   LoginScreenCubit() : super(LoginInitialState());
-  // RegisterUseCase registerUseCase ;
 
-  void register() async {
-    if (formkey.currentState?.validate() == true) {
+  Future<void> login(BuildContext context) async {
+    if (formKey.currentState?.validate() == true) {
       emit(LoginLoadingState());
-      // var either = await registerUseCase.invoke(
-      //     nameController.text,
-      //     emailController.text,
-      //     passwordController.text,
-      //     confirmationController.text,
-      //     phoneController.text);
-      // either.fold((l){
-      //   emit(RegisterErrorState(errorMessage: l.errorMessage));
-      // }, (response){
-      //   emit(RegisterSuccessState(response: response));
-      // });
+
+      try {
+        // Perform the sign-in logic here
+        var result = await loginRepository.signIn(
+          context,
+          emailController.text,
+          passwordController.text,
+        );
+
+        if (result?.user != null) {
+          emit(LoginSuccessState());
+        } else {
+          emit(LoginErrorState('Sign in failed'));
+        }
+      } catch (e) {
+        emit(LoginErrorState("An error occurred during sign in"));
+      }
     }
   }
 }

@@ -8,8 +8,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool isObsecure;
   final TextEditingController controller;
   final String? Function(String?) validator;
-  CustomTextFormField(
-      {required this.hintText,
+  const CustomTextFormField(
+      {super.key, required this.hintText,
       required this.labelText,
       required this.suffixIcon,
       required this.controller,

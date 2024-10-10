@@ -1,13 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_mate/core/Network/FirebaseUtils.dart';
+import 'package:get_it/get_it.dart';
+import 'package:weather_mate/features/auth/Register/domain/repositories/BaseRegisterRepository.dart';
 import '../state/RegisterStates.dart';
 
 class RegisterScreenCubit extends Cubit<RegisterStates> {
-  // RegisterScreenViewModel({required this.registerUseCase})
-  //     : super(RegisterInitialState());
+
   var nameController = TextEditingController(text: 'ahmed');
   var emailController = TextEditingController(text: 'ahmed1@gmail.com');
   var passwordController = TextEditingController(text: '123456');
@@ -15,19 +14,24 @@ class RegisterScreenCubit extends Cubit<RegisterStates> {
   var phoneController = TextEditingController(text: '01012345678');
   var formKey = GlobalKey<FormState>();
   bool isObscure = true;
+  final BaseRegisterRepository registerRepository = GetIt.instance<BaseRegisterRepository>();
 
   RegisterScreenCubit() : super(RegisterInitialState());
 
-  void register(BuildContext context) async {
+  Future<void> register(BuildContext context) async {
     if (formKey.currentState?.validate() == true) {
       try {
         emit(RegisterLoadingState());
-        var result = await FirebaseUtils.createUser(
+        print('Before Firebase call');
+
+        var result = await registerRepository.register(
             context,
             nameController.text,
             emailController.text,
             passwordController.text,
             phoneController.text);
+        print('After Firebase call');
+
         if (result?.user?.uid != null) {
                     emit(RegisterSuccessState());
 

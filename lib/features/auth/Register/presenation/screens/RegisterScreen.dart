@@ -6,8 +6,10 @@ import 'package:weather_mate/core/Utils/dialog_utils.dart';
 import '../../../../../core/Utils/assets.dart';
 import '../../../Login/presenation/screens/LoginScreen.dart';
 import '../../../Login/presenation/widgets/SocalCard.dart';
-import '../controller/login_cubit/cubit/Register_Cubit.dart';
-import '../controller/login_cubit/state/RegisterStates.dart';
+
+import '../controller/Register_cubit/cubit/Register_Cubit.dart';
+import '../controller/Register_cubit/state/RegisterStates.dart';
+import '../widgets/CustomButton.dart';
 import '../widgets/CustomTextFormField.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -24,28 +26,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocListener<RegisterScreenCubit, RegisterStates>(
-        bloc: cubit,
-        listener: (context, state) {
-          if (state is RegisterLoadingState) {
-            dialogUtils.showLoading(context, 'state.loadingMessage!');
-          } else if (state is RegisterErrorState) {
-            dialogUtils.hideLoading(context);
-            dialogUtils.showMessage(context, 'state.errorMessage!',
-                posActionName: 'Ok', title: 'error');
-          } else if (state is RegisterSuccessState) {
-            dialogUtils.hideLoading(context);
-            dialogUtils.showMessage(context, 'state.response',
-                posActionName: 'ok', title: 'success');
-          }
-        },
-        child: Scaffold(
+    return BlocConsumer<RegisterScreenCubit, RegisterStates>(
+      bloc: cubit,
+      listener: (context, state) {
+        if (state is RegisterLoadingState) {
+          DialogUtils.showLoading(context, 'Loading!!!');
+        } else if (state is RegisterErrorState) {
+          DialogUtils.hideLoading(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Error occurred')),
+          );
+        } else if (state is RegisterSuccessState) {
+          DialogUtils.hideLoading(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Success')),
+          );
+        }
+      },
+      builder: (BuildContext context, RegisterStates state) {
+        return Scaffold(
           appBar: AppBar(
-            toolbarHeight: 0,
+            centerTitle: true,
+            title: const Text(
+              "Register Account",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             backgroundColor: Colors.transparent,
           ),
-          backgroundColor: Colors.white,
           body: SafeArea(
             child: SizedBox(
               width: double.infinity,
@@ -54,20 +65,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
-                      const Text(
-                        "Register Account",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
+
 
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05),
+                          height: MediaQuery.of(context).size.height * 0.03),
                       Form(
+                        key: cubit.formKey,
                         child: Column(
                           children: [
                             CustomTextFormField(
@@ -151,22 +154,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
-                            ElevatedButton(
-                              onPressed: () {
-                                cubit.register(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: const Color(0xFFFF7643),
-                                foregroundColor: Colors.white,
-                                minimumSize: const Size(double.infinity, 48),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16)),
-                                ),
-                              ),
-                              child: const Text("Register"),
-                            )
+                            CustomButton(
+                                title: 'Register',
+                                onPressed: () {
+                                  cubit.register(context);
+                                })
                           ],
                         ),
                       ),
@@ -235,6 +227,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
           ),
-        ));
+        );
+      },
+    );
   }
 }

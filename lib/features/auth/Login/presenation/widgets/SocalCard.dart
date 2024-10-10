@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class SocialCard extends StatelessWidget {
   const SocialCard({
-    Key? key,
+    super.key,
     required this.icon,
     required this.press,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final VoidCallback press;

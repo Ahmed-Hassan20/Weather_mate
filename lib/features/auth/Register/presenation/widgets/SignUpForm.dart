@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../../core/Utils/assets.dart';
-import '../controller/login_cubit/cubit/Register_Cubit.dart';
 import 'CustomTextFormField.dart';
 
 class SignUpForm extends StatelessWidget {

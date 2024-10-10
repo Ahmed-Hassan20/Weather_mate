@@ -1,0 +1,26 @@
+    Feature Overview:
+
+            The HomeScreen feature is responsible for fetching and displaying weather data, including the current location, weather conditions, and forecast details. It uses the BLoC pattern to manage state, separating the UI, business logic, and data access.
+   *********************************************
+    Layers:
+            Data Source:
+
+                            HomeDataSourceImpl.dart: Implements the interface to interact with the weather API, fetching data like location and forecast details.
+WeatherResponseDTO.dart: Data Transfer Object to map the API response into the app’s internal data structures.
+********************************************
+Domain Layer:
+
+Entities:
+WeatherResponseEntity.dart: Represents the core weather data model, holding location, current, and forecast data.
+
+Repositories:
+
+BaseHomeRepository.dart: Abstract repository defining the methods for fetching weather data.
+getWeatherUseCase.dart: Contains the business logic for fetching weather data, handling validation and use case-specific requirements.
+Presentation Layer:
+
+Controller (BLoC):
+HomeCubit.dart: Manages the state for the home screen, handling loading, success, and error states based on the API call.
+HomeState.dart: Defines the different states (loading, success, error) for the HomeCubit.
+UI (Screens):
+HomeScreen.dart: The UI component responsible for displaying weather data. It interacts with the HomeCubit to display loading spinners, weather information, or error messages.

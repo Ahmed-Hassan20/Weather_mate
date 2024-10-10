@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class dialogUtils{
+class DialogUtils{
   static void showLoading(BuildContext context ,String message){
     showDialog(
       barrierDismissible: false ,
@@ -9,8 +9,8 @@ class dialogUtils{
           return AlertDialog(
             content: Row(
               children: [
-                CircularProgressIndicator(),
-                SizedBox(width: 12,),
+                const CircularProgressIndicator(),
+                const SizedBox(width: 12,),
                 Text(message,style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),),
               ],
             ),

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:weather_mate/features/auth/Register/presenation/screens/RegisterScreen.dart';
 
-import 'features/auth/Login/presenation/screens/LoginScreen.dart';
 class SplashScreen extends StatelessWidget{
   static const String routeName = 'SplashScreen';
 
@@ -9,7 +9,7 @@ class SplashScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(RegisterScreen.routeName);
     });
     return Scaffold(
       body: Image.asset(
