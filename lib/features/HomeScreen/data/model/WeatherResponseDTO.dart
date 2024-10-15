@@ -13,13 +13,9 @@ class WeatherResponseDto extends WeatherResponseEntity {
       super.message});
 
   WeatherResponseDto.fromJson(dynamic json) {
-    location =
-        json['location'] != null ? Location.fromJson(json['location']) : null;
-    current =
-        json['current'] != null ? Current.fromJson(json['current']) : null;
-    forecast =
-        json['forecast'] != null ? Forecast.fromJson(json['forecast']) : null;
-
+    location = json['location'] != null ? Location.fromJson(json['location']) : null;
+    current = json['current'] != null ? Current.fromJson(json['current']) : null;
+    forecast = json['forecast'] != null ? Forecast.fromJson(json['forecast']) : null;
     code = json['code'];
     message = json['message'];
   }
@@ -31,16 +27,31 @@ class WeatherResponseDto extends WeatherResponseEntity {
 /// date_epoch : 1728259200
 /// day : {"maxtemp_c":33.9,"maxtemp_f":93.1,"mintemp_c":20.3,"mintemp_f":68.5,"avgtemp_c":27.0,"avgtemp_f":80.6,"maxwind_mph":17.0,"maxwind_kph":27.4,"totalprecip_mm":0.0,"totalprecip_in":0.0,"totalsnow_cm":0.0,"avgvis_km":10.0,"avgvis_miles":6.0,"avghumidity":45,"daily_will_it_rain":0,"daily_chance_of_rain":0,"daily_will_it_snow":0,"daily_chance_of_snow":0,"condition":{"text":"Sunny","icon":"//cdn.weatherapi.com/weather/64x64/day/113.png","code":1000},"uv":7.0}
 /// hour : [{"time_epoch":1728277200,"time":"2024-10-07 08:00","temp_c":23.4,"temp_f":74.2,"is_day":1,"condition":{"text":"Sunny","icon":"//cdn.weatherapi.com/weather/64x64/day/113.png","code":1000},"wind_mph":9.6,"wind_kph":15.5,"wind_degree":27,"wind_dir":"NNE","pressure_mb":1014.0,"pressure_in":29.95,"precip_mm":0.0,"precip_in":0.0,"snow_cm":0.0,"humidity":60,"cloud":0,"feelslike_c":25.1,"feelslike_f":77.2,"windchill_c":23.5,"windchill_f":74.2,"heatindex_c":25.1,"heatindex_f":77.2,"dewpoint_c":15.3,"dewpoint_f":59.5,"will_it_rain":0,"chance_of_rain":0,"will_it_snow":0,"chance_of_snow":0,"vis_km":10.0,"vis_miles":6.0,"gust_mph":12.1,"gust_kph":19.5,"uv":6.0}]
-
-class Forecast extends ForecastEntity {
+class Forecast extends ForecastEntity{
   Forecast({
+    super.forecastday,});
+
+  Forecast.fromJson(dynamic json) {
+    if (json['forecastday'] != null) {
+      forecastday = [];
+      json['forecastday'].forEach((v) {
+        forecastday?.add(ForecastDay.fromJson(v));
+      });
+    }
+  }
+
+
+
+}
+class ForecastDay extends ForecastDayEntity {
+  ForecastDay({
     super.date,
     super.day,
 
     super.hour,
   });
 
-  Forecast.fromJson(dynamic json) {
+  ForecastDay.fromJson(dynamic json) {
     date = json['date'];
     day = json['day'] != null ? Day.fromJson(json['day']) : null;
     if (json['hour'] != null) {
@@ -51,7 +62,6 @@ class Forecast extends ForecastEntity {
     }
   }
 }
-
 /// name : "El Faiyum"
 /// region : "Al Fayyum"
 /// country : "Egypt"
@@ -232,7 +242,7 @@ class Condition extends ConditionEntity {
 /// condition : {"text":"Sunny","icon":"//cdn.weatherapi.com/weather/64x64/day/113.png","code":1000}
 /// uv : 7.0
 
-class Day extends DayEntity{
+class Day extends DayEntity {
   Day({
     super.maxtempC,
     super.maxtempF,
@@ -280,8 +290,6 @@ class Day extends DayEntity{
         : null;
     uv = json['uv'];
   }
-
-
 }
 
 /// text : "Sunny"
@@ -318,7 +326,7 @@ class Day extends DayEntity{
 /// gust_mph : 18.1
 /// gust_kph : 29.1
 
-class Current extends CurrentEntity{
+class Current extends CurrentEntity {
   Current({
     super.lastUpdatedEpoch,
     super.lastUpdated,
@@ -384,8 +392,6 @@ class Current extends CurrentEntity{
     gustMph = json['gust_mph'];
     gustKph = json['gust_kph'];
   }
-
-
 }
 
 /// text : "Clear"

@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text('Wind:${state.weatherResponseEntity.current?.windMph}  mph'),
-                              Text('Wind:${state.weatherResponseEntity.forecast?.day?.avgtempC}  mph'),
+                              Text('Winnnd:${state.weatherResponseEntity.forecast!.forecastday?[0].day?.avgtempC}  mph'),
 
                               Text('Humidity: ${state.weatherResponseEntity.current?.humidity}'),
                             ],
@@ -95,6 +95,7 @@ class HomeScreen extends StatelessWidget {
               ),
             );
           } else if (state is HomeErrorState) {
+            print(state.error);
             return Scaffold(
               appBar: AppBar(
                 title: const Text('Error'),

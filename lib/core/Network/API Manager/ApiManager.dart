@@ -33,17 +33,19 @@ class ApiManager {
 
         'q': '${position.latitude.toString()},${position.longitude.toString()}',
         //
-        'days': '5',
+        'days': '3',
         'hour': currentHour.toString()
       });
 
       var response = await http.get(url);
-      print('/111111111111111');
       print('statusCode : ${response.statusCode}');
       if (response.statusCode >= 200 && response.statusCode < 300) {
         var responseBody = response.body;
         var json = jsonDecode(responseBody);
+        print(json);
         var weatherResponse = WeatherResponseDto.fromJson(json);
+        print('date : ${weatherResponse.forecast!.forecastday?[0].date}');
+
         return Right(weatherResponse);
 
       } else {
