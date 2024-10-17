@@ -4,6 +4,7 @@ import 'package:weather_mate/features/HomeScreen/data/data_source/HomeDataSource
 import 'package:weather_mate/features/HomeScreen/data/repository/HomeRepositoryImpl.dart';
 import 'package:weather_mate/features/HomeScreen/domain/repositories/BaseHomeDataSource.dart';
 import 'package:weather_mate/features/HomeScreen/domain/repositories/BaseHomeRepository.dart';
+import 'package:weather_mate/features/HomeScreen/domain/use_case/getPredictionrUseCase.dart';
 import 'package:weather_mate/features/HomeScreen/domain/use_case/getWeatherUseCase.dart';
 import 'package:weather_mate/features/auth/Login/domain/repositories/BaseLoginDataSource.dart';
 import 'package:weather_mate/features/auth/Login/data/data_source/LoginDataSourceImpl.dart';
@@ -43,6 +44,10 @@ class DependencyInjection {
     );
     getIt.registerLazySingleton<GetWeatherUseCase>(
           () => GetWeatherUseCase(
+          homeRepository: getIt<BaseHomeRepository>()),
+    );
+    getIt.registerLazySingleton<GetPredictionUseCase>(
+          () => GetPredictionUseCase(
           homeRepository: getIt<BaseHomeRepository>()),
     );
   }

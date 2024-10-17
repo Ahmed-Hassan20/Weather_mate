@@ -1,0 +1,44 @@
+
+### **Authentication Feature Documentation**
+
+#### Overview
+The authentication feature provides functionality for users to log in and register within the application.
+ It employs Firebase as the backend service and is structured using **clean architecture**, which includes three layers: Presentation, Domain, and Data.
+
+#### **Feature Structure**
+
+##### 1. **Presentation Layer**
+This layer is responsible for managing user interactions and displaying the user interface related to authentication. It adheres to the **MVVM (Model-View-ViewModel)** pattern and uses **BLoC (Business Logic Component)** with Cubit for effective state management.
+
+- **Cubit**: The cubit handles various states during the authentication process, including loading, success, and failure states. It communicates with the repository to perform login and registration operations.
+- **Views**: The UI components provide forms for user input, allowing users to log in or register. The views reflect the current state of the authentication process, giving users feedback based on their actions.
+
+##### 2. **Domain Layer**
+The domain layer focuses on defining the core business rules and logic for the authentication process. It contains abstract classes for repositories and data sources that outline the necessary functionality for login and registration without implementation details.
+
+- **Abstract Classes**: These classes serve as contracts that any concrete implementations must follow, ensuring consistency across the application.
+
+##### 3. **Data Layer**
+This layer includes the concrete implementations of the repository and data source. It encapsulates the logic for interacting with Firebase, handling the actual authentication process.
+
+- **Data Source Implementation**: This component manages all Firebase-related operations for user authentication, including methods for logging in and registering users.
+- **Repository Implementation**: The repository interacts with the data source to provide the functionality defined in the domain layer, acting as an intermediary between the presentation layer and the data layer.
+
+#### **Functionality**
+
+- **Login**: Users can log in using their credentials (email and password). The application verifies these credentials against the stored data in Firebase.
+  
+- **Register**: New users can register by providing their email and password. The application creates a new account in Firebase and handles any potential errors during the registration process.
+
+#### **State Management**
+The authentication feature uses a state management approach with Cubit to manage the different states during login and registration. Possible states include:
+
+- **Initial**: The starting state before any action is taken.
+- **Loading**: Indicates that the authentication process is in progress.
+- **Success**: Indicates successful login or registration, transitioning the user to the home screen.
+- **Failure**: Indicates an error occurred during login or registration, providing feedback to the user.
+
+#### **Conclusion**
+The authentication feature is designed with a clear separation of concerns, ensuring that the application remains maintainable and scalable. 
+By utilizing clean architecture principles, the feature is structured to facilitate easy updates and enhancements in the future.
+

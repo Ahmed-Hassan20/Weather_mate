@@ -18,7 +18,7 @@ class ApiManager {
     return _instance!;
   }
 
-   Future<Either<Failures, WeatherResponseDto>> getWeather() async {
+  Future<Either<Failures, WeatherResponseDto>> getWeather() async {
     try {
       DateTime now = DateTime.now();
       int currentHour = now.hour;
@@ -47,12 +47,36 @@ class ApiManager {
         print('date : ${weatherResponse.forecast!.forecastday?[0].date}');
 
         return Right(weatherResponse);
-
       } else {
         return Left(Failures(errorMessage: 'Failed to fetch weather data'));
       }
     } catch (e) {
       return Left(Failures(errorMessage: 'An error occurred: ${e.toString()}'));
+    }
+  }
+
+  Future<Either<Failures, dynamic>> getPrediction(List<dynamic> features) async {
+    final url = Uri.parse('http://192.168.1.21:5001/predict');
+
+    // Create the POST request body
+    Map<String, dynamic> body = {'features': features};
+
+    // Send the POST request
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(body),
+    );
+    print(response.statusCode);
+    // Handle the response
+    if (response.statusCode == 200) {
+      final prediction = json.decode(response.body)['prediction'];
+      print('Prediction: $prediction');
+
+      return Right(prediction);
+    } else {
+      return Left(
+          Failures(errorMessage: 'Failed to get prediction!!!!!!!!!!!!!!'));
     }
   }
 }

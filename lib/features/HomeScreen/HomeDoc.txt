@@ -1,0 +1,76 @@
+
+### **HomeScreen Feature Documentation**
+
+#### Overview
+The **HomeScreen feature** is responsible for fetching and displaying weather data, including the current location, weather conditions, and forecast details. 
+It uses the **BLoC pattern** to manage state, separating concerns across the data, domain, and presentation layers.
+
+---
+
+### **Layered Structure**
+
+#### **1. Data Layer**
+This layer handles the data fetching and interactions with external APIs and other data sources. It communicates with the API manager for weather-related services.
+
+- **Data Source Implementation (`HomeDataSourceImpl.dart`)**:
+  - The implementation of the interface to interact with the weather API, fetching data like location, forecast, and current weather details.
+  - It also contains logic to send a list of features to an AI model hosted on a local server for prediction purposes.
+
+- **HomeRepositoryImpl**: A concrete implementation of the repository, handling logic for interacting with the data layer to fetch weather and forecast data. 
+
+- **Model (`WeatherResponseDTO.dart`)**:
+  - The Data Transfer Object (DTO) that maps the API response into internal data structures that are used across the app.
+
+---
+
+#### **2. Domain Layer**
+This layer is responsible for defining the core business logic and rules related to weather fetching and prediction.
+
+- **Entities (`WeatherResponseEntity.dart`)**:
+  - Represents the core weather data model, holding location, current weather, and forecast data.
+
+- **Repositories (`BaseHomeRepository.dart`, `HomeRepository.dart`)**:
+  - **BaseHomeRepository**: An abstract repository that defines the methods required for fetching weather data.
+
+
+- **Use Cases (`getWeatherUseCase.dart`, `getPredictionUseCase.dart`)**:
+  - **GetWeatherUseCase**: Contains the business logic for fetching weather data, validating inputs, and communicating with the repository.
+  - **GetPredictionUseCase**: Handles the logic for making a prediction request to the AI model hosted locally. It takes a list of features as input to determine if the weather conditions are suitable for playing tennis.
+
+---
+
+#### **3. Presentation Layer**
+This layer handles everything related to UI and user interaction, presenting the weather data to the user.
+
+- **Controller (Cubit) (`HomeCubit.dart`)**:
+  - Manages the state of the HomeScreen, handling loading, success, and error states based on the API calls.
+  - It uses **BLoC/Cubit** for state management, separating the UI concerns from the business logic.
+
+- **State (`HomeState.dart`)**:
+  - Defines the different states for the HomeCubit, including:
+    - **Initial State**: The initial state before any data is loaded.
+    - **Loading State**: Indicates that the weather data is currently being fetched.
+    - **Success State**: When the weather data is successfully fetched, containing the weather information.
+    - **Error State**: Captures any errors that occur during data fetching.
+
+- **UI (Screens) (`HomeScreen.dart`)**:
+  - The **HomeScreen** component is responsible for displaying the weather data to the user.
+  - It interacts with the **HomeCubit** to manage states such as loading spinners, displaying weather information, or showing error messages.
+  - The screen also contains the UI logic for triggering predictions using the features list, which determines if the weather is suitable for playing tennis.
+
+---
+
+### **Functionality**
+
+#### **Weather Fetching**
+- The app fetches current weather data (including temperature, humidity, wind speed, etc.) and displays it to the user. The location of the user is also shown alongside the weather condition (e.g., sunny, cloudy, etc.).
+
+#### **Prediction**
+- The user can trigger a prediction based on a set of features (a list of integers). This prediction interacts with an AI model hosted on a local server to determine if the weather is suitable for playing tennis.
+
+
+---
+
+### **Conclusion**
+The **HomeScreen feature** is structured to ensure separation of concerns, adhering to clean architecture principles. It integrates weather data fetching from an external API, prediction functionality using an AI model, and effective state management with **BLoC/Cubit**. This structure ensures maintainability, scalability, and the potential for future enhancements.
+

@@ -4,4 +4,6 @@ import '../entities/WeatherResponseEntity.dart';
 
 abstract class BaseHomeDataSource {
   Future<Either<Failures, WeatherResponseEntity>?> getWeather();
+  Future<Either<Failures, dynamic>?> getPrediction(List<dynamic> features);
+
 }
