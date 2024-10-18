@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:weather_mate/core/Utils/dialog_utils.dart';
 import 'package:weather_mate/features/auth/Register/presenation/widgets/CustomButton.dart';
 import '../../../../../core/Utils/assets.dart';
+import '../../../../HomeScreen/presentation/screens/HomeScreen.dart';
 import '../../../Register/presenation/screens/RegisterScreen.dart';
 import '../../../Register/presenation/widgets/CustomTextFormField.dart';
 import '../controller/login_cubit/cubit/Login_Cubit.dart';
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider(
       create: (context) => LoginScreenCubit(),
       child: Scaffold(
+
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
@@ -58,11 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
             final cubit =
                 BlocProvider.of<LoginScreenCubit>(context); // Access cubit here
             return SafeArea(
-              child: SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
@@ -107,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               CustomTextFormField(
                                 hintText: "Enter your password",
                                 labelText: "Password",
+                                isObsecure: true,
                                 suffixIcon: AppAssets.lockIcon,
                                 controller: cubit.passwordController,
                                 validator: (text) {
@@ -127,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onPressed: () {
                                     cubit.login(context);
                                     Navigator.of(context).pushReplacementNamed(
-                                        RegisterScreen.routeName);
+                                        HomeScreen.routeName);
                                   })
                             ],
                           ),
@@ -186,10 +188,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
+
                       ],
                     ),
                   ),
-                ),
+                  Expanded(
+                    child: SvgPicture.asset(
+                      'assets/images/bottom.svg',
+                      width: double.infinity,
+                      fit: BoxFit.fill,  // Adjust how the SVG should fit in the box
+                    ),
+                  )
+                ],
               ),
             );
           },

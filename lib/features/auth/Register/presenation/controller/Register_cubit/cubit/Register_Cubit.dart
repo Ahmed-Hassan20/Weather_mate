@@ -7,13 +7,12 @@ import '../state/RegisterStates.dart';
 
 class RegisterScreenCubit extends Cubit<RegisterStates> {
 
-  var nameController = TextEditingController(text: 'ahmed');
-  var emailController = TextEditingController(text: 'ahmed1@gmail.com');
-  var passwordController = TextEditingController(text: '123456');
-  var confirmationController = TextEditingController(text: '123456');
-  var phoneController = TextEditingController(text: '01012345678');
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var confirmationController = TextEditingController();
+  var phoneController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  bool isObscure = true;
   final BaseRegisterRepository registerRepository = GetIt.instance<BaseRegisterRepository>();
 
   RegisterScreenCubit() : super(RegisterInitialState());

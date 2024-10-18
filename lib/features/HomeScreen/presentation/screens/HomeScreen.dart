@@ -10,7 +10,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<int> feature = [0,0,0,0,0];
+    final size = MediaQuery.of(context).size; // Responsive size
+
     return BlocProvider(
       create: (context) => HomeScreenCubit()..getWeather(),
       child: BlocBuilder<HomeScreenCubit, HomeStates>(
@@ -26,87 +27,119 @@ class HomeScreen extends StatelessWidget {
               ),
             );
           } else if (state is HomeSuccessState) {
-            print(state.weatherResponseEntity.features);
             // Display weather data
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: const Color(0xFFFF7643),
                 title: Text(
-                  '${state.weatherResponseEntity.location?.country},${state.weatherResponseEntity.location?.name}',
+                  '${state.weatherResponseEntity.location?.country}, ${state.weatherResponseEntity.location?.name}',
                   style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               body: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.05,
+                    vertical: size.height * 0.02,
+                  ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             '${state.weatherResponseEntity.current?.condition?.text}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 40),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: size.width * 0.08, // Responsive text
+                            ),
                           ),
-                          state.weatherResponseEntity.current?.condition
-                                      ?.icon !=
-                                  null
+                          state.weatherResponseEntity.current?.condition?.icon != null
                               ? Image.network(
-                                  fit: BoxFit.fill,
-                                  'https:${state.weatherResponseEntity.current?.condition!.icon}',
-                                  width: 100,
-                                  height: 100,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(
-                                        Icons.error); // Error fallback
-                                  },
-                                )
+                            'https:${state.weatherResponseEntity.current?.condition!.icon}',
+                            width: size.width * 0.2,
+                            height: size.height * 0.2,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.error);
+                            },
+                          )
                               : const Icon(Icons.image_not_supported),
                         ],
                       ),
                       Card(
                         color: const Color(0xFFFF7643),
-                        margin: const EdgeInsets.all(8),
-                        child: ListTile(
-                          title: Text(
-                              'Time:${state.weatherResponseEntity.current?.lastUpdated}'),
-                          subtitle: Column(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Temperature: ${state.weatherResponseEntity.current?.feelslikeC} °C',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                                'Time: ${state.weatherResponseEntity.current?.lastUpdated}',
+                                style: TextStyle(
+                                  fontSize: size.width * 0.045,
+                                  color: Colors.white,
+                                ),
                               ),
+                              SizedBox(height: size.height * 0.01),
                               Text(
-                                  'Wind:${state.weatherResponseEntity.current?.windMph} mph'),
+                                'Temperature: ${state.weatherResponseEntity.current?.feelslikeC} °C',
+                                style: TextStyle(
+                                  fontSize: size.width * 0.05,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: size.height * 0.01),
                               Text(
-                                  'Avg Temp:${state.weatherResponseEntity.forecast!.forecastday?[0].day?.avgtempC} °C'),
+                                'Wind: ${state.weatherResponseEntity.current?.windMph} mph',
+                                style: TextStyle(
+                                  fontSize: size.width * 0.045,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: size.height * 0.01),
                               Text(
-                                  'Humidity: ${state.weatherResponseEntity.current?.humidity}'),
+                                'Avg Temp: ${state.weatherResponseEntity.forecast!.forecastday?[0].day?.avgtempC} °C',
+                                style: TextStyle(
+                                  fontSize: size.width * 0.045,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: size.height * 0.01),
+                              Text(
+                                'Humidity: ${state.weatherResponseEntity.current?.humidity}',
+                                style: TextStyle(
+                                  fontSize: size.width * 0.045,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
+                      SizedBox(height: size.height * 0.05),
+
                       ElevatedButton(
                         onPressed: () async {
-                          if (feature != null) {
-                            await HomeScreenCubit.get(context).getPrediction(feature);
-                            var cubit = HomeScreenCubit.get(context);
+                          var cubit = HomeScreenCubit.get(context);
 
-                            // Show dialog based on prediction
+                          if (state.weatherResponseEntity.features != null) {
+                            await cubit.getPrediction(
+                                state.weatherResponseEntity.features!);
+
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
                                 title: Text(cubit.prediction == true
-                                    ? 'Prediction Success'
-                                    : 'Prediction Failed'),
+                                    ? 'Great News'
+                                    : 'Not your Day'),
                                 content: Text(cubit.prediction == true
-                                    ? 'Prediction result: success'
-                                    : 'Prediction result: fail'),
+                                    ? "Let's Do it"
+                                    : 'Maybe another time'),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
@@ -120,7 +153,8 @@ class HomeScreen extends StatelessWidget {
                               context: context,
                               builder: (context) => AlertDialog(
                                 title: const Text('Error'),
-                                content: const Text('Features not available for prediction.'),
+                                content: const Text(
+                                    'Features not available for prediction.'),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
@@ -131,8 +165,26 @@ class HomeScreen extends StatelessWidget {
                             );
                           }
                         },
-                        child: const Text('Get Prediction'),
-                      ),                    ],
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          minimumSize: Size(
+                            size.width * 0.4,
+                            size.height * 0.06,
+                          ), // Smaller and responsive button
+                          backgroundColor: const Color(0xFFFF7643),
+                        ),
+                        child: Text(
+                          'Get Prediction',
+                          style: TextStyle(
+                            fontSize: size.width * 0.045,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -158,9 +210,7 @@ class HomeScreen extends StatelessWidget {
               ),
             );
           } else {
-            return Container(
-              color: Colors.green,
-            );
+            return Container();
           }
         },
       ),

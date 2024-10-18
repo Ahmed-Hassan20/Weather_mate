@@ -65,8 +65,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-
-
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.03),
                       Form(
@@ -124,6 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             CustomTextFormField(
                               hintText: "Enter your password",
                               labelText: "Password",
+                              isObsecure: true,
                               suffixIcon: AppAssets.lockIcon,
                               controller: cubit.passwordController,
                               validator: (text) {
@@ -139,6 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             CustomTextFormField(
                               hintText: "Enter Confirmation password",
                               labelText: "Confirmation Password",
+                              isObsecure: true,
                               suffixIcon: AppAssets.lockIcon,
                               controller: cubit.confirmationController,
                               validator: (text) {
