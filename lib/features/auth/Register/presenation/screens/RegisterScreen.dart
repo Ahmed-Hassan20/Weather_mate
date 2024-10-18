@@ -41,6 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Success')),
           );
+          Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
         }
       },
       builder: (BuildContext context, RegisterStates state) {

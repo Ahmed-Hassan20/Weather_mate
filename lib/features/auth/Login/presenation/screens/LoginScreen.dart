@@ -26,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider(
       create: (context) => LoginScreenCubit(),
       child: Scaffold(
-
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
@@ -42,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
         body: BlocConsumer<LoginScreenCubit, LoginStates>(
           listener: (context, state) {
             if (state is LoginLoadingState) {
-              DialogUtils.showLoading(context, 'Loading!!!');
             } else if (state is LoginErrorState) {
               Navigator.pop(context); // Close loading indicator
               // Show error message
@@ -50,10 +48,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SnackBar(content: Text('Error occurred')),
               );
             } else if (state is LoginSuccessState) {
-              Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Success')),
               );
+              Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
             }
           },
           builder: (context, state) {
@@ -188,7 +186,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-
                       ],
                     ),
                   ),
@@ -196,7 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: SvgPicture.asset(
                       'assets/images/bottom.svg',
                       width: double.infinity,
-                      fit: BoxFit.fill,  // Adjust how the SVG should fit in the box
+                      fit: BoxFit
+                          .fill, // Adjust how the SVG should fit in the box
                     ),
                   )
                 ],

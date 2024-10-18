@@ -9,9 +9,10 @@ class DialogUtils{
           return AlertDialog(
             content: Row(
               children: [
-                const CircularProgressIndicator(),
+                const CircularProgressIndicator(color: Color(0xFFFF7643),),
                 const SizedBox(width: 12,),
-                Text(message,style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),),
+                Text(message,style: Theme.of(context).textTheme.titleMedium?.
+                copyWith(color: Colors.black),),
               ],
             ),
           );
